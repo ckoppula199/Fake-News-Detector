@@ -39,5 +39,39 @@ X_train, X_test, y_train, y_test = train_test_split(news_text, y, test_size=0.2,
 tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_df=0.7)
 
 # Apply TfidfVectorizer to training and test set.
-tfidf_vectorizer.fit_transform(X_train)
-tfidf_vectorizer.transform(X_test)
+tfidf_train = tfidf_vectorizer.fit_transform(X_train)
+tfidf_test = tfidf_vectorizer.transform(X_test)
+
+# Convert to numpy arrays
+tfidf_train = tfidf_train.toarray()
+tfidf_test = tfidf_test.toarray()
+
+
+"""
+---------------Training PassiveAggressiveClassifier---------------
+"""
+
+# Training the classifier
+classifier = PassiveAggressiveClassifier(max_iter=50)
+classifier.fit(tfidf_train, y_train)
+
+
+"""
+---------------Predicting Single Result---------------
+"""
+
+# Input has to be a 2D array
+y_pred_single = classifier.predict([tfidf_test[0]])
+# Below line prints the entire article
+# print(f"Input is {X_test[0]}")
+print(f"Actual label is {y_test[0]}")
+print(f"Predicted label is {y_pred_single}")
+
+
+"""
+---------------Predicitng Test Set Result---------------
+"""
+
+y_pred = classifier.predict(tfidf_test)
+print("Prediction, Actual")
+print(np.concatenate((y_pred.reshape(len(y_pred), 1), y_test.reshape(len(y_test), 1)), axis=1))
