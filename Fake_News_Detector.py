@@ -33,7 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(news_text, y, test_size=0.2,
 ---------------Using TfidfVectorizer---------------
 """
 
-# Collection of raw documents converted into matric of TF-IDF features.
+# Collection of raw documents converted into matrix of TF-IDF features.
 # Initialised to exclude stop words (and, the, to etc) and words with a greater
 # document frequency than 0.7
 tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_df=0.7)
